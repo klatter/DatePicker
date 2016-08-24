@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="jQueryUIDatepicker.widget.jQueryUIDatepicker" needsEntityContext="true" xmlns="http://www.mendix.com/widget/1.0/">
+  <name>jQueryUIDatepicker</name>
+  <description>The description of this widget.</description>
+
+  <icon></icon>
+
+  <properties>
+        <property key="dateAttribute" type="attribute">
+            <caption>Attribute (path)</caption>
+            <category>General</category>
+			<description></description>
+            <attributeTypes>
+                <attributeType name="DateTime"/>
+            </attributeTypes>
+        </property>
+		<property key="dateFormat" type="string" required="true" defaultValue="mm/dd/yy">
+            <caption>Date format</caption>
+            <category>Options</category>
+            <description>Date format that is used, e.g. mm/dd/yy or dd-mm-yy. See jQueryUI documentation (http://api.jqueryui.com/datepicker/#utility-formatDate) for possible formats.</description>
+        </property>
+		<property key="showButtonBar" type="boolean" required="true" defaultValue="false">
+            <caption>Display button bar</caption>
+            <category>Options</category>
+            <description>Display a button for selecting Today's date and a Done button for closing the calendar.</description>
+        </property>
+		<property key="showMonthYearMenu" type="boolean" required="true" defaultValue="true">
+            <caption>Month / year menus</caption>
+            <category>Options</category>
+            <description>Show month and year dropdowns in place of the static month/year header to facilitate navigation through large timeframes.</description>
+        </property>
+		<property key="showWeekNr" type="boolean" required="true" defaultValue="false">
+            <caption>Show weeknumber</caption>
+            <category>Options</category>
+            <description>Show the week of the year.</description>
+        </property>
+		<property key="firstDay" type="enumeration" required="true" defaultValue="Monday">
+            <caption>First day of the week</caption>
+            <category>Options</category>
+            <description>Only used when weeknumber is shown. The default calculation follows the ISO 8601 definition: the week starts on Monday, the first week of the year contains the first Thursday of the year.</description>
+			<enumerationValues>
+				<enumerationValue key="Monday">Monday</enumerationValue>
+				<enumerationValue key="Sunday">Sunday</enumerationValue>
+			</enumerationValues>
+        </property>
+	</properties>
+</widget>
+

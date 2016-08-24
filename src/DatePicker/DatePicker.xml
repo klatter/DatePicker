@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="DatePicker.widget.DatePicker" needsEntityContext="true" xmlns="http://www.mendix.com/widget/1.0/">
+    <name>DatePicker</name>
+    <description>The description of this widget.</description>
+
+    <icon>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</icon>
+    <properties>
+        <!-- SETUP -->
+        <property key="monthNotation" type="enumeration" defaultValue="long">
+            <caption>Month notation</caption>
+            <category>Setup</category>
+            <description>Long (Januari) or short (Jan) display of the month</description>
+            <enumerationValues>
+                <enumerationValue key="long">Long</enumerationValue>
+                <enumerationValue key="short">Short</enumerationValue>
+            </enumerationValues>
+        </property>
+        <property key="dateOrder" type="enumeration" defaultValue="dmy">
+            <caption>Date order</caption>
+            <category>Setup</category>
+            <description>The order of appearance of the inputfields</description>
+            <enumerationValues>
+                <enumerationValue key="dmy">DD/MM/YYYY</enumerationValue>
+                <enumerationValue key="mdy">MM/DD/YYYY</enumerationValue>
+                <enumerationValue key="ymd">YYYY/MM/DD</enumerationValue>
+            </enumerationValues>
+        </property>
+        <property key="inputFieldsSetup" type="enumeration" defaultValue="idi">
+            <caption>Date display</caption>
+            <category>Setup</category>
+            <description>Display of date input fields</description>
+            <enumerationValues>
+                <enumerationValue key="ddi">Drop down DD + MM inputfield for YYYY</enumerationValue>
+                <enumerationValue key="idi">Drop down MM inputfield for DD + YYYY</enumerationValue>
+                <enumerationValue key="iii">Input fields DD + MM + YYYY</enumerationValue>
+            </enumerationValues>
+        </property>
+        <!-- APPEARANCE SETUP -->
+        <property key="language" type="enumeration" defaultValue="nl">
+            <caption>Date language</caption>
+            <category>Appearance</category>
+            <description>Language of date</description>
+            <enumerationValues>
+                <enumerationValue key="nl">Dutch</enumerationValue>
+                <enumerationValue key="en">English</enumerationValue>
+                <enumerationValue key="ger">German</enumerationValue>
+                <enumerationValue key="fra">French</enumerationValue>
+            </enumerationValues>
+        </property>
+        <property key="orientation" type="enumeration" defaultValue="horizontal">
+            <caption>Form orientation</caption>
+            <category>Appearance</category>
+            <description>Orientation of form</description>
+            <enumerationValues>
+                <enumerationValue key="horizontal">Horizontal</enumerationValue>
+                <enumerationValue key="vertical">Vertical</enumerationValue>
+            </enumerationValues>
+        </property>
+        <property key="attributeLabel" type="string" >
+            <caption>Label</caption>
+            <category>Appearance</category>
+            <description>String to appear as label</description>
+        </property>
+        <property key="labelwidth" type="integer" defaultValue="4">
+            <caption>Width of label</caption>
+            <category>Appearance</category>
+            <description>The width of the label. For layout to function properly this should be a value between 1 and 11. This value will only be used if form orientation is Horizontal.</description>
+        </property>
+        <!-- INPUT SETUP -->
+        <property key="futureYear" type="boolean" defaultValue="false">
+            <caption>Date can be in future?</caption>
+            <category>Input</category>
+            <description>If no is selected, year can only be current year or lower.</description>
+        </property>
+        <property key="attributeName" type="attribute">
+            <caption>Date attribute</caption>
+            <category>Input</category>
+            <description>DateTime attribute</description>
+            <attributeTypes>
+                <attributeType name="DateTime" />
+            </attributeTypes>
+        </property>
+        <!-- ERROR LABELS -->
+        <property key="errorDay" type="string" >
+            <caption>Day not valid</caption>
+            <category>Errors</category>
+            <description>String to appear as error when day is not correct</description>
+        </property>
+        <property key="errorMonth" type="string" >
+            <caption>Month not valid</caption>
+            <category>Errors</category>
+            <description>String to appear as error when month is not correct</description>
+        </property>
+        <property key="errorYear" type="string" >
+            <caption>Year not valid</caption>
+            <category>Errors</category>
+            <description>String to appear as error when year is not correct</description>
+        </property>
+        <property key="errorDate" type="string" >
+            <caption>Date not valid</caption>
+            <category>Errors</category>
+            <description>String to appear as error when date is not correct e.g. 31 feb 2000</description>
+        </property>
+    </properties>
+</widget>
+

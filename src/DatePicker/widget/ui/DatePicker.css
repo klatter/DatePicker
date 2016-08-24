@@ -1,0 +1,16 @@
+.DatePicker {
+}
+
+.DatePicker-message {
+
+}
+
+.input-group-addon {
+    clear: both;
+    padding: 2px 6px;
+}
+
+.DatePicker-infoTextNode {
+    padding: 0.8em 1em;
+    margin-top: 10px;
+}
