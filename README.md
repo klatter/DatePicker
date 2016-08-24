@@ -23,3 +23,6 @@ Vertical & Horizontal (if horizontal is used, label width can be set)
 DD/MM/YYYY- MM/DD/YYYY- YYYY/MM/DD
 
 Custom error messages can be set.
+
+# Credits:
+Based on [Mendix boilerplate](https://github.com/mendix/AppStoreWidgetBoilerplate)
