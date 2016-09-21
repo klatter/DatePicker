@@ -1,8 +1,7 @@
-.widgetname {
-    
+.DatePicker {
 }
 
-.widgetname-message {
+.DatePicker-message {
 
 }
 
@@ -11,7 +10,7 @@
     padding: 2px 6px;
 }
 
-.widgetname-infoTextNode {
+.DatePicker-infoTextNode {
     padding: 0.8em 1em;
     margin-top: 10px;
 }

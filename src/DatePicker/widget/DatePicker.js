@@ -1,14 +1,14 @@
-/*jslint nomen: true, plusplus: true, eqeq: true, unparam: false*/
-/*global mx, logger, dojo, define, require, browser, devel, console, document, jQuery, alert, mendix*/
+/*jslint nomen: true, plusplus: true, eqeq: true */
+/*global mx, logger, dojo, define, require, browser, devel, console, document, jQuery, alert*/
 /*mendix */
 /*
     DatePicker
     ========================
 
     @file      : DatePicker.js
-    @version   : 1.0.1
+    @version   : 1.0.0
     @author    : Adnan Ramlawi
-    @date      : Tue, 20 Sept 2016 09:40:34 GMT
+    @date      : Fri, 24 Jun 2016 09:40:34 GMT
     @copyright : Capgemini
     @license   : Apache License, Version 2.0, January 2004
 
@@ -22,17 +22,24 @@ define([
     "mxui/widget/_WidgetBase",
     "dijit/_TemplatedMixin",
     "mxui/dom",
+    "dojo/dom",
+    "dojo/dom-prop",
+    "dojo/dom-geometry",
     "dojo/dom-class",
-    "dojo/dom-attr",
+    "dojo/dom-style",
     "dojo/dom-construct",
+    "dojo/_base/array",
     "dojo/_base/lang",
+    "dojo/text",
     "dojo/html",
+    "dojo/query",
+    "dojo/_base/event",
 
     "DatePicker/lib/jquery-1.11.2",
     "dojo/text!DatePicker/widget/template/DatePicker.html"
-], function (declare, _WidgetBase, _TemplatedMixin, dom, dojoClass, dojoAttr, dojoConstruct, dojoLang, dojoHtml, dojoQuery, widgetTemplate) {
+], function (declare, _WidgetBase, _TemplatedMixin, dom, dojoDom, dojoProp, dojoGeometry, dojoClass, dojoStyle, dojoConstruct, dojoArray, dojoLang, dojoText, dojoHtml, dojoQuery, dojoEvent, jQuery, widgetTemplate) {
     "use strict";
-
+    var $ = jQuery.noConflict(true);
     // Declare widget's prototype.
     return declare("DatePicker.widget.DatePicker", [_WidgetBase, _TemplatedMixin], {
 
@@ -42,10 +49,6 @@ define([
         //Variables from template
         labelName: "",
         dateWrapper: "",
-        dataElementDD: "",
-        dataElementMM: "",
-        dataElementYY: "",
-
 
         // Parameters configured in the Modeler.
         attributeName: "", // string
@@ -67,7 +70,7 @@ define([
         _wgtNode: null,
         _inputNode: null,
         _alertDiv: null,
-        _handles: [],
+
         //Variables
         monthArray: [],
         dayArray: [],
@@ -92,7 +95,7 @@ define([
             this._contextObj = obj;
             this._subscribeToAttribute();
             this._loadDate();
-            mendix.lang.nullExec(callback);
+            callback();
         },
         // Adds classes to both label and inputfields for Layout.
         _addFormClasses: function () {
@@ -107,36 +110,21 @@ define([
                 var attrHandle = this.subscribe({
                     guid: this._contextObj.getGuid(),
                     attr: this.attributeName,
-                    callback: dojoLang.hitch(this, function () {
+                    callback: dojoLang.hitch(this, function (guid, attr, attrValue) {
                         this._loadDate();
                     })
                 });
-                this._handles.push(attrHandle);
             }
         },
         // if there is already a date set, get date and fill input fields.
         _loadDate: function () {
-            var self = this;
+            var dateFromDB, dayValue, monthValue, yearValue, self = this;
             this._contextObj.fetch(this.attributeName, function (value) {
-                var dateFromDB,
-                    classNameSearch = "." +  self.className;
-
                 dateFromDB = new Date(value);
-
                 // set dates, if not set return empty value instead of NaN
-                dojoQuery(classNameSearch).forEach(function (node) {
-                    var id = dojoAttr.get(node, "id");
-                    if (id === "day") {
-                        dojoAttr.set(node, "value", dateFromDB.getDate() || "");
-                    }
-                    if (id === "month") {
-                        dojoAttr.set(node, "value", dateFromDB.getMonth() + 1 || "");
-                    }
-                    if (id === "year") {
-                        dojoAttr.set(node, "value", dateFromDB.getFullYear() || "");
-                    }
-                });
-
+                $("." + self.className + "#day").val(dateFromDB.getDate() || "");
+                $("." + self.className + "#month").val(dateFromDB.getMonth() + 1 || "");
+                $("." + self.className + "#year").val(dateFromDB.getFullYear() || "");
             });
         },
         // initialise all values setup in modeler, also create additional arrays used by widget.
@@ -156,11 +144,10 @@ define([
         // basic validation for the date input parameters.
         _validateDateValue: function () {
             //set date values
-            var value, isValidated = true, self = this, classNameSearch = "." + self.className;
-            dojoQuery(classNameSearch).forEach(function (node) {
-            //$2(classNameSearch).each(function () {
-                value = node.value.replace(/\s+/g, ""); // remove spaces
-                switch (dojoAttr.get(node, "id")) {
+            var value, isValidated = true, self = this;
+            $("." + self.className).each(function () {
+                value = $(this).val().replace(/\s+/g, ""); // remove spaces
+                switch ($(this).attr("id")) {
                 case "day":
                     if ((value > 0) && (value <= 31)) {
                         self.day = value;
@@ -204,8 +191,8 @@ define([
                     "innerHTML": message
                 });
             }
-            dojoConstruct.place(this._alertDiv, this.inputWrapperNode, "last");
-            //this.inputWrapperNode.appendChild(this._alertDiv);
+            //dojoConstruct.place(this._alertDiv, this.inputWrapperNode, 'last');
+            this.inputWrapperNode.appendChild(this._alertDiv);
         },
         // removes errors
         _clearError: function () {
@@ -225,14 +212,13 @@ define([
         },
         // check if all fields are set and starts validation if needed.
         _setupValidation: function () {
-            var allSet, value, self = this;
-            dojoQuery("." + self.className).on("change", function () {
-
+            var allSet, self = this;
+            $("." + self.className).change(function () {
+                var value = $(this).val();
                 // check if all fields are set before changing mxobject
                 allSet = true;
-                dojoQuery("." + self.className).forEach(function (node) {
-                    value = node.value.replace(/\s+/g, "");
-                    if (value === "") {
+                $("." + self.className).each(function () {
+                    if ($(this).val().trim() === "") {
                         allSet = false;
                     }
                 });
@@ -245,7 +231,7 @@ define([
         },
         // sets up form fields, according to input order array from modeler.
         _createAllFormFields: function () {
-            var dataArray, i, inputOrderArray, $ = dom.create;
+            var dataArray, i, inputOrderArray, $ = dom.create, self = this;
             this._inputNode = $("div", {
                 "class": "mx-dateinput-input-wrapper"
             });
@@ -268,11 +254,11 @@ define([
             var dateOrderArray = this.dateOrder.split("");
             if (dateOrderArray[i] === "d") {
                 return ["DD", "day", this.dayArray];
-            }
-            if (dateOrderArray[i] === "m") {
+            } else if (dateOrderArray[i] === "m") {
                 return ["MM", "month", this.monthArray];
+            } else {
+                return ["YYYY", "year"];
             }
-            return ["YYYY", "year"];
         },
         // sets locale languagestring to create arrays.
         _initialiseArraysBasedOnLanguage: function () {
@@ -320,8 +306,7 @@ define([
                 value: "",
                 "id": dataArray[1],
                 "placeholder": dataArray[0],
-                "style" : "width:125px; display:inline-block; margin-right: 10px;",
-                "data-dojo-attach-point" : "dataElement" + dataArray[0]
+                "style" : "width:125px; display:inline-block; margin-right: 10px;"
             });
             return inputNode;
         },
@@ -334,8 +319,7 @@ define([
             selectNode =  $("select", {
                 "class": "form-control " + this.className,
                 "id": dataArray[1],
-                "style" : "width:125px; display:inline-block; margin-right: 10px;",
-                "data-dojo-attach-point" : "dataElement" + dataArray[0]
+                "style" : "width:125px; display:inline-block; margin-right: 10px;"
             });
             dojo.forEach(dataArray[2], function (item, index) {
                 dojo.create("option", {
@@ -350,5 +334,4 @@ define([
 });
 require(["DatePicker/widget/DatePicker"], function () {
     "use strict";
-    return;
 });
