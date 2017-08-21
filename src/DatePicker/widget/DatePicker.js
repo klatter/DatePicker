@@ -124,7 +124,7 @@ define([
                 dateFromDB = new Date(value);
 
                 // set dates, if not set return empty value instead of NaN
-                dojoQuery(classNameSearch).forEach(function (node) {
+                dojoQuery(classNameSearch).each(function (index, node) {
                     var id = dojoAttr.get(node, "id");
                     if (id === "day") {
                         dojoAttr.set(node, "value", dateFromDB.getDate() || "");
@@ -157,7 +157,7 @@ define([
         _validateDateValue: function () {
             //set date values
             var value, isValidated = true, self = this, classNameSearch = "." + self.className;
-            dojoQuery(classNameSearch).forEach(function (node) {
+            dojoQuery(classNameSearch).each(function (index, node) {
             //$2(classNameSearch).each(function () {
                 value = node.value.replace(/\s+/g, ""); // remove spaces
                 switch (dojoAttr.get(node, "id")) {
@@ -230,7 +230,7 @@ define([
 
                 // check if all fields are set before changing mxobject
                 allSet = true;
-                dojoQuery("." + self.className).forEach(function (node) {
+                dojoQuery("." + self.className).each(function (index, node) {
                     value = node.value.replace(/\s+/g, "");
                     if (value === "") {
                         allSet = false;
